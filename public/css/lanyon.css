@@ -39,6 +39,8 @@ html,
 body {
   overflow-x: hidden;
   width: 900px;
+  margin-right: auto;
+  margin-left: auto;
 }
 
 html {
