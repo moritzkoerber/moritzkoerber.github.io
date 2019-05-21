@@ -47,6 +47,7 @@ html {
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Myriad Pro Light", "Myriad Pro", "Source Sans Pro","Open Sans", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 22px;
   font-weight: 700;
   color: #313131;
   letter-spacing: -.025rem;
