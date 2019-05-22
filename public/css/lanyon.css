@@ -38,9 +38,11 @@
 html,
 body {
   overflow-x: hidden;
-  width: 1200px;
+}
+content{
+	  width: 1200px;
   margin-right: auto;
-  margin-left: auto;
+margin-left: auto;
 }
 
 html {
