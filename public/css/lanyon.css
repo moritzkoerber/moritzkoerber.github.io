@@ -38,21 +38,20 @@
 html,
 body {
   overflow-x: hidden;
-  width: 900px;
+  width: 1200px;
   margin-right: auto;
   margin-left: auto;
 }
 
 html {
   font-family: "Open Sans", "Lato", "Linux Libertine", Arial, "Times New Roman", serif;
-  font-size: 15px;
+  font-size: 20px;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: "Myriad Pro Light", "Myriad Pro", "Source Sans Pro","Open Sans", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 22px;
+  font-size: 30px;
   font-weight: 700;
-  color: #313131;
   letter-spacing: -.025rem;
 }
 
