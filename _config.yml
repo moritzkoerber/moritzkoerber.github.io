@@ -5,7 +5,7 @@ permalink:           pretty
 
 
 # Setup
-title:               'some blog posts...'
+title:               'Dataism'
 tagline:             'some blog posts...'
 description:         'some blog posts...'
 url:                 
@@ -16,7 +16,9 @@ paginate:            5
 author:
   name:              Moritz Körber
   url:               
-  email:
+  email:             
+  github:            github.com/moritzkoerber
+  twitter:           @moritzkoerber
 
 # Custom vars
 version:             1.0.0
