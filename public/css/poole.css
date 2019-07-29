@@ -47,11 +47,7 @@ body {
   padding: 0;
 }
 
-html {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
+
 @media (min-width: 38em) {
   html {
     font-size: 20px;
@@ -150,7 +146,7 @@ abbr[title] {
 /* Code */
 code,
 pre {
-  font-family: Menlo, Monaco, "Courier New", monospace;
+  font-family: "Source Code Pro", "Ludica Console", monospace;
 }
 code {
   padding: .25em .5em;

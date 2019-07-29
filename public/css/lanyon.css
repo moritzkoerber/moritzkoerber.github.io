@@ -40,13 +40,22 @@ body {
   overflow-x: hidden;
 }
 
-content{
-	  width: 200px;
+html {
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
 }
 
 .post-title {
   font-family: Roboto, Helvetica, Arial, sans-serif;
-  font-size: 26px;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -.025rem;
+}
+
+.post-date {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 20px;
   font-weight: 700;
   letter-spacing: -.025rem;
 }
