@@ -44,18 +44,19 @@ content{
 	  width: 200px;
 }
 
-html {
-  font-family: "Open Sans", "Lato", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Myriad Pro Light", "Myriad Pro", "Source Sans Pro","Open Sans", Roboto, Helvetica, Arial, sans-serif;
-  font-size: 24px;
+h1 {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 26px;
   font-weight: 700;
   letter-spacing: -.025rem;
 }
 
+h2, h3, h4, h5, h6 {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.025rem;
+}
 
 /*
  * Wrapper
@@ -87,7 +88,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 @media (min-width: 56em) {
   .container {
-    max-width: 38rem;
+    max-width: 48rem;
   }
 }
 
