@@ -44,16 +44,37 @@ content{
 	  width: 200px;
 }
 
-h1 {
+.post-title {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 26px;
   font-weight: 700;
   letter-spacing: -.025rem;
 }
 
-h2, h3, h4, h5, h6 {
+h1 {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: -.025rem;
+}
+
+h2 {
   font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -.025rem;
+}
+
+h3, h4, h5, h6 {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: -.025rem;
+}
+
+h4, h5, h6 {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 18px;
   font-weight: 700;
   letter-spacing: -.025rem;
 }
