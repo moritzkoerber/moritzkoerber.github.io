@@ -151,11 +151,21 @@ h4, h5, h6 {
   margin-top: 0;
   margin-bottom: 0;
   color: #505050;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-right: 24;
 }
 .masthead-title a {
   color: #505050;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  margin-right: 24;
 }
+
 .masthead-title small {
+  font-family: Roboto, Helvetica, Arial, sans-serif;
   font-size: 75%;
   font-weight: 400;
   color: #c0c0c0;
