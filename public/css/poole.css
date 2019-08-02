@@ -226,7 +226,7 @@ blockquote p:last-child {
 img {
   display: block;
   max-width: 130%;
-  margin-top: 1rem;
+  margin-top: 0rem;
   margin-bottom: 1rem;
   margin-left: 50%;
   transform: translateX(-50%);
