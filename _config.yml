@@ -8,8 +8,8 @@ permalink:           pretty
 title:               'Dataism'
 tagline:             'some blog posts...'
 description:         'some blog posts...'
-url:                 'https://moritzkoerber.github.io/'
-baseurl:             'https://moritzkoerber.github.io/'
+url:                 'https://moritzkoerber.github.io'
+baseurl:             'https://moritzkoerber.github.io'
 paginate:            5
 
 # About/contact
