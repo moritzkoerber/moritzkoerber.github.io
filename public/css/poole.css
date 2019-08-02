@@ -225,8 +225,11 @@ blockquote p:last-child {
 
 img {
   display: block;
-  max-width: 100%;
-  margin: 0 0 1rem;
+  max-width: 130%;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  margin-left: 50%;
+  transform: translateX(-50%);
   border-radius: 5px;
 }
 
@@ -237,6 +240,7 @@ table {
   width: 100%;
   border: 1px solid #e5e5e5;
   border-collapse: collapse;
+
 }
 td,
 th {
