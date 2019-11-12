@@ -6,8 +6,8 @@ permalink:           pretty
 
 # Setup
 title:               'Dataism'
-tagline:             'some blog posts...'
-description:         'some blog posts...'
+tagline:             'Dadaism with data'
+description:         'Dadaism with data'
 url:                 'https://moritzkoerber.github.io'
 baseurl:             'https://moritzkoerber.github.io'
 paginate:            5
