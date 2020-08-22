@@ -3,7 +3,7 @@ layout: page
 title: About
 ---
 
-Hi, I am Moritz. I am blogging here about things that I come across on my data analysis journey. You can also find me on <br>
+Hi, I am Moritz. I am blogging here about things that I come across on my data analysis journey. You can also find me on
 <p>
    <a href="https://github.com/moritzkoerber" target="_blank" rel="noopener">
    <i class="fab fa-github fa-3x"></i> 

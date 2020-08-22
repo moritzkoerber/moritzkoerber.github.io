@@ -433,10 +433,6 @@ a.pagination-item:hover {
 
 .fab {
   color: #505050;
-}
-
-.fab-nav {
-  color: #FFFFFF;
-  padding-left: 3em;
+  padding-right: 0.3em;
 }
 
