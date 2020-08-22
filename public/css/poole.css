@@ -429,3 +429,14 @@ a.pagination-item:hover {
     border-bottom-right-radius: 4px;
   }
 }
+
+
+.fab {
+  color: #505050;
+}
+
+.fab-nav {
+  color: #FFFFFF;
+  padding-left: 3em;
+}
+
