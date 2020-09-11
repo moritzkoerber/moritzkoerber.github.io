@@ -440,3 +440,7 @@ a.pagination-item:hover {
   color: #ffffff;
   padding-right: 0.2em;
 }
+
+.fit_img {
+  max-width:100%;
+}
