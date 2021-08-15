@@ -111,7 +111,7 @@ If you decide to also build in GitHub Actions, be careful to use `fetch-depth: 0
     fetch-depth: 0
 ```
 
-## What about __version__?
+## What about \_\_version\_\_?
 The steps above ensure a version for the package's metadata. One option to provide a `__version__` attribute is to first let `setuptools_scm` write the inferred version to a file:
 ```
 [tool.setuptools_scm]
