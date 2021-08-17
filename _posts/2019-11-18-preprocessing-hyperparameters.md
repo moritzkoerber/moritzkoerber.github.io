@@ -2,7 +2,7 @@
 title: "Tune your preprocessing steps and algorithm selection like hyperparameters"
 author: "Moritz Körber"
 date: "18 November 2019"
-categories: [python, tutorial]
+categories: [Python, Tutorial]
 tags: [python, pipeline, preprocessing, scikit-learn]
 ---
 

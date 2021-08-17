@@ -2,7 +2,7 @@
 title: "How to apply preprocessing steps in a pipeline only to specific features"
 author: "Moritz Körber"
 date: "11 October 2019"
-categories: [python, tutorial]
+categories: [Python, Tutorial]
 tags: [python, pipeline, preprocessing, scikit-learn]
 ---
 

@@ -2,7 +2,7 @@
 layout: post
 title: "Version metadata are like charging cables: Versioning your package with setuptools_scm"
 date: "August 14th 2021"
-categories: [Python]
+categories: [Python, Tutorial]
 tags: [Python, Git, GitHub, packaging]
 ---
 
