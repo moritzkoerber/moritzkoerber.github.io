@@ -1,7 +1,7 @@
 /*
   The common styles
 */
-@import url('https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans&family=Source+Sans+Pro:wght@400;600;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans|Open+Sans:bold&family=Source+Sans+Pro:wght@400;600;900&display=swap');
 
 @mixin mode-toggle($dark-mode: false) {
   @if $dark-mode {
@@ -290,6 +290,8 @@ footer {
   h1 {
     margin-top: 3rem;
     margin-bottom: 1rem;
+    font-weight: bold;
+    letter-spacing: -0.025rem;
   }
   em { /* MarkDown italic */
     padding-right: 0.2rem;
