@@ -20,7 +20,7 @@ timezone: Europe/Berlin
 
 title: Moritz Körber                          # the main title
 
-tagline: Data Science and Other Board Games   # it will display as the sub-title
+tagline: Data science and other board games   # it will display as the sub-title
 
 description: >-                        # used by seo meta and the atom feed
   A blog on various data science topics that I stumbled upon.
