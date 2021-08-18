@@ -3,7 +3,7 @@ title: "Prediction of the quality of physical exercise on the basis of accelerom
 author: "Moritz Körber"
 date: "24 July 2019"
 categories: [Analysis, R]
-tags: [R, exercise, xgboost, mlr]
+tags: [R, Analysis, xgboost, mlr, Machine Learning]
 ---
 
 

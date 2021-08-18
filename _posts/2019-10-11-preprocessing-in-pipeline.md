@@ -3,7 +3,7 @@ title: "How to apply preprocessing steps in a pipeline only to specific features
 author: "Moritz Körber"
 date: "11 October 2019"
 categories: [Python, Tutorial]
-tags: [python, pipeline, preprocessing, scikit-learn]
+tags: [Python, Pipeline, Preprocessing, Scikit-Learn, Machine Learning]
 ---
 
 The situation: You have a pipeline to standardize and automate preprocessing. Your data set contains features of at least two different data types that require different preprocessing steps. For example, categorical features may need to be converted into dummy variables but continuous features may need to be standardized. sci-kit learn has got you covered here since version 0.20! The function [ColumnTransformer](https://scikit-learn.org/stable/modules/generated/sklearn.compose.ColumnTransformer.html) allows you to create column-specific pipeline steps! In this post, I show you how to use the function and talk about the advantages of preprocessing with a pipeline a bit. Let's get started!
