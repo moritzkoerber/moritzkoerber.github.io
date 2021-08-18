@@ -8,4 +8,4 @@ order: 4
   <img src="/resources/images/pic.jpg"/>
 </figure>
 
-Hi, I am Moritz. I am blogging here about things that I come across on my data analysis journey.
+Hi, I am Moritz. I live in Munich (Germany). I am blogging here about things that I come across on my data analysis journey. If you want to get in touch, just send me a <a href="mailto:koerber.moritz@gmail.com">mail</a> or use one of the many buttons on the bottom left ;)
