@@ -4,7 +4,7 @@ icon: fas fa-info
 order: 4
 ---
 
-<figure style="width: 65%;  margin: -2rem auto 2rem;">
+<figure style="width: 50%;  margin: -2rem auto 2rem;">
   <img src="/resources/images/pic.jpg"/>
 </figure>
 
