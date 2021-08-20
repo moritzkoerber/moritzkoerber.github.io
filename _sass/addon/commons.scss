@@ -1529,7 +1529,7 @@ $sidebar-display: "sidebar-display";
       margin-bottom: 1rem;
 
       &.text-center {
-        text-align: left !important;
+        text-align: center !important;
       }
 
       %profile-ml {
@@ -1543,7 +1543,7 @@ $sidebar-display: "sidebar-display";
           width: 6.2rem;
           height: 6.2rem;
           &.mx-auto {
-            margin-left: 0 !important;
+            margin-left: auto !important;
           }
         }
       }
