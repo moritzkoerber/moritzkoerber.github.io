@@ -6,7 +6,7 @@ categories: [Python, Tutorial]
 tags: [Python, Pipeline, Preprocessing, Scikit-Learn, Machine Learning]
 ---
 
-Using a pipeline to preprocess your data offers some substantive [advantages](https://moritzkoerber.github.io/python/tutorial/2019/10/11/blogpost/). A pipeline guarantees that no information from the test set is used in preprocessing or training the model. Pipelines are often combined with cross-validation to find the best parameter combination of a machine learning algorithm. However, the implemented preprocessing steps, for example whether to scale the data, or the implemented machine learning algorithm can also be seen as a hyperparameter; not of a single model but of the whole training process. We can therefore tune them as such to further improve our model's performance. In this post, I will show you how to do it with sci-kit learn! 
+Using a pipeline to preprocess your data offers some substantive [advantages](https://moritzkoerber.github.io/python/tutorial/2019/10/11/blogpost/). A pipeline guarantees that no information from the test set is used in preprocessing or training the model. Pipelines are often combined with cross-validation to find the best parameter combination of a machine learning algorithm. However, the implemented preprocessing steps, for example whether to scale the data, or the implemented machine learning algorithm can also be seen as a hyperparameter; not of a single model but of the whole training process. We can therefore tune them as such to further improve our model's performance. In this post, I will show you how to do it with sci-kit learn!
 
 We start with the required packages:
 
@@ -221,7 +221,7 @@ In the same way we provide a list of hyperparameters of a machine learning algor
 ```python
 params = [
     {
-        'clf': [LogisticRegression()],   
+        'clf': [LogisticRegression()],
         'clf__solver': ['liblinear'],
         'clf__penalty': ['l1', 'l2'],
         'clf__C': [0.01, 0.1, 1, 10, 100],
@@ -238,7 +238,7 @@ params = [
 
 ## Tuning the preprocessing steps
 
-Next, we take care of tuning the preprocessing steps. We add them as parameters in the parameter grid by inserting their names given in the pipeline above: The `StandardScaler()` to preprocess numericals can be addressed by `'preprocessing__numericals__scaler'`. `'preprocessing'` addresses the pipeline step, which is our ColumnTransformer, `'__numericals'` addresses the pipeline for numericals inside this ColumnTransformer, and `'__scaler'` addresses the StandardScaler in this particular pipeline. We could modify the StandardScaler here, for example by giving `'preprocessing__scaler__with_std': ['False']`, but we can also set whether standardizing is performed at all. By passing the list `[StandardScaler(), 'passthrough']` to the `'scaler'` step, we either use the `StandardScaler()` in this step or no transformer at all (with `'passthrough'`). By this, we can evaluate how our model performance changes if we do not standardize at all! The same is true for the imputer: We can try out whether the mean or median delivers better performance in this particular cross-validation process. 
+Next, we take care of tuning the preprocessing steps. We add them as parameters in the parameter grid by inserting their names given in the pipeline above: The `StandardScaler()` to preprocess numericals can be addressed by `'preprocessing__numericals__scaler'`. `'preprocessing'` addresses the pipeline step, which is our ColumnTransformer, `'__numericals'` addresses the pipeline for numericals inside this ColumnTransformer, and `'__scaler'` addresses the StandardScaler in this particular pipeline. We could modify the StandardScaler here, for example by giving `'preprocessing__scaler__with_std': ['False']`, but we can also set whether standardizing is performed at all. By passing the list `[StandardScaler(), 'passthrough']` to the `'scaler'` step, we either use the `StandardScaler()` in this step or no transformer at all (with `'passthrough'`). By this, we can evaluate how our model performance changes if we do not standardize at all! The same is true for the imputer: We can try out whether the mean or median delivers better performance in this particular cross-validation process.
 
 Below you find the complete parameter grid with all mentioned parameters included:
 
@@ -246,7 +246,7 @@ Below you find the complete parameter grid with all mentioned parameters include
 ```python
 params = [
     {
-        'clf': [LogisticRegression()],   
+        'clf': [LogisticRegression()],
         'clf__solver': ['liblinear'],
         'clf__penalty': ['l1', 'l2'],
         'clf__C': [0.01, 0.1, 1, 10, 100],
@@ -283,7 +283,7 @@ print(f'Scores: {classification_report(y_train, cv.predict(X_train))}')
 ```
 
     Best F1-score: 0.722
-    
+
     Best parameter set: {'clf': RandomForestClassifier(bootstrap=True, class_weight=None, criterion='gini',
                            max_depth=8, max_features='auto', max_leaf_nodes=None,
                            min_impurity_decrease=0.0, min_impurity_split=None,
@@ -291,19 +291,19 @@ print(f'Scores: {classification_report(y_train, cv.predict(X_train))}')
                            min_weight_fraction_leaf=0.0, n_estimators=50,
                            n_jobs=None, oob_score=False, random_state=42, verbose=0,
                            warm_start=False), 'clf__max_depth': 8, 'clf__n_estimators': 50, 'clf__random_state': 42, 'preprocessing__numericals__imputer_num__strategy': 'median', 'preprocessing__numericals__scaler': StandardScaler(copy=True, with_mean=True, with_std=True)}
-    
+
     Scores:               precision    recall  f1-score   support
-    
+
                0       0.87      0.95      0.91       647
                1       0.91      0.77      0.83       400
-    
+
         accuracy                           0.88      1047
        macro avg       0.89      0.86      0.87      1047
     weighted avg       0.88      0.88      0.88      1047
-    
 
 
-Our best estimator is a random forest with `max_depth = 8`, `n_estimators = 50`, imputation by median and standardized numericals. 
+
+Our best estimator is a random forest with `max_depth = 8`, `n_estimators = 50`, imputation by median and standardized numericals.
 
 How do we do on completely new, yet unseen data?
 
@@ -315,15 +315,15 @@ print(f'F1-score: {f1_score(y_holdout, preds):.3f}')
 ```
 
     Scores:               precision    recall  f1-score   support
-    
+
                0       0.83      0.88      0.86       162
                1       0.79      0.71      0.75       100
-    
+
         accuracy                           0.82       262
        macro avg       0.81      0.80      0.80       262
     weighted avg       0.82      0.82      0.81       262
-    
-    
+
+
     F1-score: 0.747
 
 

@@ -10,7 +10,7 @@ tags: [R, Analysis, xgboost, mlr, Machine Learning]
 
 # Background
 
-Going to the gym, whether to boost your health, to lose weight, or simply because it is fun, is certainly a worthwile activity. [FiveThirtyEight](https://fivethirtyeight.com/features/its-easier-than-ever-to-get-the-recommended-amount-of-exercise/) recently reported that according to the latest *Physical Activity Guidelines for Americans*, every form of activity counts. However, if you have eager goals, not only quantity but also quality and being efficient matters. In this project, I predict whether a certain exercise, a barbell lift, was well or sloppily executed on the basis of data obtained from accelerometers on the belt, forearm, arm, and dumbell of six participants. The participants performed the exercises correctly and incorrectly in five different ways. 
+Going to the gym, whether to boost your health, to lose weight, or simply because it is fun, is certainly a worthwile activity. [FiveThirtyEight](https://fivethirtyeight.com/features/its-easier-than-ever-to-get-the-recommended-amount-of-exercise/) recently reported that according to the latest *Physical Activity Guidelines for Americans*, every form of activity counts. However, if you have eager goals, not only quantity but also quality and being efficient matters. In this project, I predict whether a certain exercise, a barbell lift, was well or sloppily executed on the basis of data obtained from accelerometers on the belt, forearm, arm, and dumbell of six participants. The participants performed the exercises correctly and incorrectly in five different ways.
 
 The idea for this analysis stems from the Coursera course *Practical Machine Learning* by Johns Hopkins University. The data for this project come from [http://groupware.les.inf.puc-rio.br/har](http://groupware.les.inf.puc-rio.br/har).
 
@@ -108,14 +108,14 @@ df %>%
 
 ```
 ## Warning: funs() is soft deprecated as of dplyr 0.8.0
-## Please use a list of either functions or lambdas: 
-## 
-##   # Simple named list: 
+## Please use a list of either functions or lambdas:
+##
+##   # Simple named list:
 ##   list(mean = mean, median = median)
-## 
-##   # Auto named with `tibble::lst()`: 
+##
+##   # Auto named with `tibble::lst()`:
 ##   tibble::lst(mean, median)
-## 
+##
 ##   # Using lambdas
 ##   list(~ mean(., trim = .2), ~ median(., na.rm = TRUE))
 ## This warning is displayed once per session.
@@ -135,7 +135,7 @@ vis_miss(df[which(p > 0.975)],
 df[which(p > 0.975)] <- NULL
 ```
 
-Highly correlated features contain mostly the same information. Hence, keeping both does not have any value at best and hurts fitting the model at worst. I am looking for features that are highly correlated for this reason and discard them if it seems sensible. 
+Highly correlated features contain mostly the same information. Hence, keeping both does not have any value at best and hurts fitting the model at worst. I am looking for features that are highly correlated for this reason and discard them if it seems sensible.
 
 
 ```r
@@ -168,10 +168,10 @@ findCorrelation(na.omit(descrCor), cutoff = .98, verbose = T, exact = T, names =
 ```
 
 ```
-## Compare row 11  and column  2 with corr  0.992 
-##   Means:  0.266 vs 0.165 so flagging column 11 
-## Compare row 2  and column  5 with corr  0.981 
-##   Means:  0.247 vs 0.161 so flagging column 2 
+## Compare row 11  and column  2 with corr  0.992
+##   Means:  0.266 vs 0.165 so flagging column 11
+## Compare row 2  and column  5 with corr  0.981
+##   Means:  0.247 vs 0.161 so flagging column 2
 ## All correlations <= 0.98
 ```
 
@@ -190,14 +190,14 @@ findLinearCombos(nums)
 ```
 ## $linearCombos
 ## list()
-## 
+##
 ## $remove
 ## NULL
 ```
 
 # 3. Visualize the data
 
-Time to take a step back and to have a look at the result of these cleaning steps. 
+Time to take a step back and to have a look at the result of these cleaning steps.
 
 
 ```r
@@ -214,7 +214,7 @@ vis_guess(df)
 
 ![](/resources/images/2019-07-24-blogpost/unnamed-chunk-11-1.png)<!-- -->
 
-Plotting the relationship of the features with the target, `classe`, yields a first glimpse on potentially meaningful features. 
+Plotting the relationship of the features with the target, `classe`, yields a first glimpse on potentially meaningful features.
 
 ```r
 nums <- unlist(lapply(df, is.numeric))
@@ -237,43 +237,43 @@ Since the training is a bit computational heavy, I outsourced this step and brou
 ## R version 3.6.0 (2019-04-26)
 ## Platform: x86_64-w64-mingw32/x64 (64-bit)
 ## Running under: Windows Server x64 (build 17763)
-## 
+##
 ## Matrix products: default
-## 
+##
 ## locale:
-## [1] LC_COLLATE=English_United States.1252 
-## [2] LC_CTYPE=English_United States.1252   
+## [1] LC_COLLATE=English_United States.1252
+## [2] LC_CTYPE=English_United States.1252
 ## [3] LC_MONETARY=English_United States.1252
-## [4] LC_NUMERIC=C                          
-## [5] LC_TIME=English_United States.1252    
-## 
+## [4] LC_NUMERIC=C
+## [5] LC_TIME=English_United States.1252
+##
 ## attached base packages:
-## [1] stats     graphics  grDevices utils     datasets  methods   base     
-## 
+## [1] stats     graphics  grDevices utils     datasets  methods   base
+##
 ## other attached packages:
-## [1] visdat_0.5.3      mlr_2.14.0        ParamHelpers_1.12 caret_6.0-84     
-## [5] ggplot2_3.1.1     lattice_0.20-38   dplyr_0.8.1      
-## 
+## [1] visdat_0.5.3      mlr_2.14.0        ParamHelpers_1.12 caret_6.0-84
+## [5] ggplot2_3.1.1     lattice_0.20-38   dplyr_0.8.1
+##
 ## loaded via a namespace (and not attached):
-##  [1] gbm_2.1.5           tidyselect_0.2.5    purrr_0.3.2        
-##  [4] reshape2_1.4.3      splines_3.6.0       colorspace_1.4-1   
-##  [7] generics_0.0.2      stats4_3.6.0        survival_2.44-1.1  
-## [10] XML_3.98-1.19       prodlim_2018.04.18  rlang_0.3.4        
-## [13] ModelMetrics_1.2.2  pillar_1.4.0        glue_1.3.1         
-## [16] withr_2.1.2         xgboost_0.82.1      foreach_1.4.4      
-## [19] plyr_1.8.4          lava_1.6.5          stringr_1.4.0      
-## [22] timeDate_3043.102   munsell_0.5.0       gtable_0.3.0       
-## [25] recipes_0.1.5       codetools_0.2-16    parallelMap_1.4    
-## [28] parallel_3.6.0      class_7.3-15        Rcpp_1.0.1         
-## [31] scales_1.0.0        backports_1.1.4     checkmate_1.9.3    
-## [34] ipred_0.9-9         gridExtra_2.3       fastmatch_1.1-0    
-## [37] ranger_0.11.2       stringi_1.4.3       BBmisc_1.11        
-## [40] grid_3.6.0          tools_3.6.0         magrittr_1.5       
+##  [1] gbm_2.1.5           tidyselect_0.2.5    purrr_0.3.2
+##  [4] reshape2_1.4.3      splines_3.6.0       colorspace_1.4-1
+##  [7] generics_0.0.2      stats4_3.6.0        survival_2.44-1.1
+## [10] XML_3.98-1.19       prodlim_2018.04.18  rlang_0.3.4
+## [13] ModelMetrics_1.2.2  pillar_1.4.0        glue_1.3.1
+## [16] withr_2.1.2         xgboost_0.82.1      foreach_1.4.4
+## [19] plyr_1.8.4          lava_1.6.5          stringr_1.4.0
+## [22] timeDate_3043.102   munsell_0.5.0       gtable_0.3.0
+## [25] recipes_0.1.5       codetools_0.2-16    parallelMap_1.4
+## [28] parallel_3.6.0      class_7.3-15        Rcpp_1.0.1
+## [31] scales_1.0.0        backports_1.1.4     checkmate_1.9.3
+## [34] ipred_0.9-9         gridExtra_2.3       fastmatch_1.1-0
+## [37] ranger_0.11.2       stringi_1.4.3       BBmisc_1.11
+## [40] grid_3.6.0          tools_3.6.0         magrittr_1.5
 ## [43] lazyeval_0.2.2      tibble_2.1.1        randomForest_4.6-14
-## [46] crayon_1.3.4        pkgconfig_2.0.2     MASS_7.3-51.4      
-## [49] Matrix_1.2-17       data.table_1.12.2   lubridate_1.7.4    
-## [52] gower_0.2.1         assertthat_0.2.1    iterators_1.0.10   
-## [55] R6_2.4.0            rpart_4.1-15        nnet_7.3-12        
+## [46] crayon_1.3.4        pkgconfig_2.0.2     MASS_7.3-51.4
+## [49] Matrix_1.2-17       data.table_1.12.2   lubridate_1.7.4
+## [52] gower_0.2.1         assertthat_0.2.1    iterators_1.0.10
+## [55] R6_2.4.0            rpart_4.1-15        nnet_7.3-12
 ## [58] nlme_3.1-139        compiler_3.6.0
 ```
 
@@ -396,7 +396,7 @@ plotBMRBoxplots(bm)
 
 ![](/resources/images/2019-07-24-blogpost/unnamed-chunk-25-1.png)<!-- -->
 
-The XGBoost algorithm seems to do the best job here. Thus, I concentrate on this learner and go on with extended hyperparameter tuning. Next, I train the final model on the complete training data set and discard all others but the best performing hyperparameter set. 
+The XGBoost algorithm seems to do the best job here. Thus, I concentrate on this learner and go on with extended hyperparameter tuning. Next, I train the final model on the complete training data set and discard all others but the best performing hyperparameter set.
 
 # 4. Train final model
 
@@ -425,7 +425,7 @@ testing <- testing[vars]
 ```
 
 ## Prediction
-I use the model trained above to predict the 20 cases in this final test set. 
+I use the model trained above to predict the 20 cases in this final test set.
 
 ```r
 pred <- predict(model, newdata = testing)

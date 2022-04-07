@@ -10,15 +10,15 @@ tags: [Python, Missing Data, Airbnb, Kaggle, missingno]
   <img src="/resources/images/2019-08-02-blogpost/black-and-white-black-and-white-challenge-262488.jpg"/>
 </figure>
 
-Real-world data sets are very rarely free of missing values. Their causes are manifold: A participant could just have overlooked a survey item but it could also have been a controversial question where answers are refused by some. They could have been introduced completely at random, for example by logging errors, or systematically, for example because a condition was not met or a sensor was not recording. 
+Real-world data sets are very rarely free of missing values. Their causes are manifold: A participant could just have overlooked a survey item but it could also have been a controversial question where answers are refused by some. They could have been introduced completely at random, for example by logging errors, or systematically, for example because a condition was not met or a sensor was not recording.
 
-Independent of their cause, there are two representations of missing values in Numpy/Pandas: `None` and `NaN`. `None` is the sentinel value implemented in arrays with dtype `object`, while `NaN` is a special floating-point value. Pandas was designed to handle both almost interchangeably. 
+Independent of their cause, there are two representations of missing values in Numpy/Pandas: `None` and `NaN`. `None` is the sentinel value implemented in arrays with dtype `object`, while `NaN` is a special floating-point value. Pandas was designed to handle both almost interchangeably.
 
-Even if the machine learning application of your choice may digest data containing missing values, this simply means that they are ignored. Thus, no matter what you are doing, the decision whether to drop/ignore or to impute the missing values must be made. There are no fixed rules which method is better or even correct, both have advantages and disadvantages. It all comes down to the peculiarities of the data set at hand and to one's understanding of this data set including its data generating process. But consensus is that the extent of missingness, its systematic, and interpretability are the key factors to a sensible decision in this case. Otherwise, you will either throw away a lot of information or introduce bias. 
+Even if the machine learning application of your choice may digest data containing missing values, this simply means that they are ignored. Thus, no matter what you are doing, the decision whether to drop/ignore or to impute the missing values must be made. There are no fixed rules which method is better or even correct, both have advantages and disadvantages. It all comes down to the peculiarities of the data set at hand and to one's understanding of this data set including its data generating process. But consensus is that the extent of missingness, its systematic, and interpretability are the key factors to a sensible decision in this case. Otherwise, you will either throw away a lot of information or introduce bias.
 
 There is an extensive discussion of the various techniques for dealing with missing values in the literature, which is out of the scope of this blog post. In this post, I rather want to show how to approach a yet unseen data set and how to inspect the missing values with the package [`missingno`](https://github.com/ResidentMario/missingno)<span style="font-size:12px;"><sup>1</sup></span>. A plot says more than 1000 tables, that's why the package is so helpful here. It provides four ways to visually summarize the missing values, which give a great overview of the extent, patterns, and inter-relationship of missing data. Before this, I will begin with some preprocessing steps that bring the data in the right shape and make the analysis of missing values easier later.
 
-The analyzed dataset contains listings of homestays in Boston, MA and Seattle, WA on [airbnb.com](https://www.airbnb.com). More details and a download link of the data set can be found [here](https://www.kaggle.com/airbnb/boston) and [here](https://www.kaggle.com/airbnb/seattle/data). 
+The analyzed dataset contains listings of homestays in Boston, MA and Seattle, WA on [airbnb.com](https://www.airbnb.com). More details and a download link of the data set can be found [here](https://www.kaggle.com/airbnb/boston) and [here](https://www.kaggle.com/airbnb/seattle/data).
 
 Okay, let's go!
 
@@ -79,7 +79,7 @@ msno.bar(df)
 </figure>
 
 
-That certainly looks confusing. Of course, a plot including all features makes sense to see what features are completely missing or completely present at first glance. But in all other cases, we first need to thin the data set before we proceed. 
+That certainly looks confusing. Of course, a plot including all features makes sense to see what features are completely missing or completely present at first glance. But in all other cases, we first need to thin the data set before we proceed.
 
 First, drop columns with no valid values:
 
@@ -307,7 +307,7 @@ print(df[['square_feet', 'space']].dtypes)
     square_feet    float64
     space           object
     dtype: object
-    
+
 
 Nope, space is text!
 
@@ -417,7 +417,7 @@ msno.heatmap(df)
 </figure>
 
 
-The default color scheme is `RdBu`, but you can pick another diverging color scheme by setting the *cmap* parameter (more info on the available color schemes can be found [here](https://matplotlib.org/users/colormaps.html)). 
+The default color scheme is `RdBu`, but you can pick another diverging color scheme by setting the *cmap* parameter (more info on the available color schemes can be found [here](https://matplotlib.org/users/colormaps.html)).
 
 How to read this plot? Let's pick some numbers. The first $1$ shows up at the correlation between `host_response_time` and `host_response_rate`. Whenever an observation of `host_response_time` is present in a case, an observation of `host_response_rate` is also present (and vice versa). Values close to $1$ or $-1$ are marked by $<1$/$>-1$. These relationships deserve special attention because, for example, at $<1$, an observation is almost always present in both variables, if it is present in any of the two variables, but in a few cases. For example, if there is an observation present in `first_review`, we would expect to see a corresponding observation in `last_review` as well, because this is almost everytime the case. If there is none, there might be a systematic mechanism at work, e. g., a certain condition is fulfilled which prevents data logging.
 
@@ -425,9 +425,9 @@ The function does not print correlations $-.05 < r < .05$, which is the case for
 
 ## 4. dendrogram()
 
-Compared to the heatmap, the dendrogram zooms out a bit and helps to reveal clusters of missing datas. That is, not only pairwise relationships but also relationships between groups of variables. The function relies on a [hierarchical clustering algorithm](http://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html) to cluster the features based on their missingness measured by binary distance (although other cluster methods can be set as well). The closer features are in this graph (i.e. the earlier their lines meet), the stronger is the link between their missingness. 
+Compared to the heatmap, the dendrogram zooms out a bit and helps to reveal clusters of missing datas. That is, not only pairwise relationships but also relationships between groups of variables. The function relies on a [hierarchical clustering algorithm](http://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html) to cluster the features based on their missingness measured by binary distance (although other cluster methods can be set as well). The closer features are in this graph (i.e. the earlier their lines meet), the stronger is the link between their missingness.
 
-Again, it makes sense to exclude variables that have no/only missing values. If the distance of a feature to these features is of interest, they may be included. 
+Again, it makes sense to exclude variables that have no/only missing values. If the distance of a feature to these features is of interest, they may be included.
 
 
 ```python
@@ -446,9 +446,9 @@ msno.dendrogram(df_miss)
 </figure>
 
 
-As we can see, the variables that had a correlation of 1 in the plot above already meet at a distance of 0. We can see here that features regarding the review are strongly linked in their missingness – most of the time either all or none of these features are present. The same is true for some but not all host related feautures. If we examine cleaning_fee again, we see that it exhibits a large distance and, therefore, is weakly linked in it's missingness just as we saw in the heatmap. 
+As we can see, the variables that had a correlation of 1 in the plot above already meet at a distance of 0. We can see here that features regarding the review are strongly linked in their missingness – most of the time either all or none of these features are present. The same is true for some but not all host related feautures. If we examine cleaning_fee again, we see that it exhibits a large distance and, therefore, is weakly linked in it's missingness just as we saw in the heatmap.
 
-We now had a look at the missing values of the data set with the `missingno` package. I hope you enjoyed this intro and are now eager to make some plots for your own data set of choice. 
+We now had a look at the missing values of the data set with the `missingno` package. I hope you enjoyed this intro and are now eager to make some plots for your own data set of choice.
 
 Obtaining an understanding of the missingness in a data set is only one of many steps to be done before a valid model can be trained. I will go deeper into these preprocessing steps in future blog posts. Stay tuned!
 
@@ -459,4 +459,4 @@ Github repo for this blogpost: [https://github.com/moritzkoerber/visualize_w_mis
 
 Github repo for the missingno package: [https://github.com/ResidentMario/missingno](https://github.com/ResidentMario/missingno)
 
-<span style="font-size:12px;"><sup>1</sup></span> Bilogur, A. (2018). Missingno: a missing data visualization suite. *Journal of Open Source Software*, *3*(22), 547. [https://doi.org/10.21105/joss.00547](https://doi.org/10.21105/joss.00547) 
+<span style="font-size:12px;"><sup>1</sup></span> Bilogur, A. (2018). Missingno: a missing data visualization suite. *Journal of Open Source Software*, *3*(22), 547. [https://doi.org/10.21105/joss.00547](https://doi.org/10.21105/joss.00547)

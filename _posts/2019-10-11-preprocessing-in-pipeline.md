@@ -168,16 +168,16 @@ First of all, it is convenient and makes the preprocessing steps and their order
 
 1) It allows to include the preprocessing steps in the hyperparameter tuning (I'll come back to that in another post).
 
-2) It saves you from making the mistake of using any test data for model training or decisions on the model (e. g., classifier parameters), also known as *data leakage*. This pitfall lurks, for example, when you use scalers or are imputing missing values. Avoiding this is crucial to obtaining valid model performance estimates. The preprocessing steps declared in the pipeline are guaranteed to be only performed based on training data (or training folds in cross-validation). 
+2) It saves you from making the mistake of using any test data for model training or decisions on the model (e. g., classifier parameters), also known as *data leakage*. This pitfall lurks, for example, when you use scalers or are imputing missing values. Avoiding this is crucial to obtaining valid model performance estimates. The preprocessing steps declared in the pipeline are guaranteed to be only performed based on training data (or training folds in cross-validation).
 
-3) It guarantees that your data is always preprocessed the same way. This is important, for example, if a categorical feature has a category in the test set that does not occur in the training set. I'll give you an example: Let's say your training data contains a feature `review_status`, which indicates whether a transaction has already been reviewed. It may feature the following two categories: 
+3) It guarantees that your data is always preprocessed the same way. This is important, for example, if a categorical feature has a category in the test set that does not occur in the training set. I'll give you an example: Let's say your training data contains a feature `review_status`, which indicates whether a transaction has already been reviewed. It may feature the following two categories:
 
 
 ```python
 review_status = ['not reviewed', 'reviewed']
 ```
 
-However, in your test data, there is one more category, `'externally reviewed'`, which does not appear in the training set. Now if you use `pandas.get_dummies()`, you will encounter two problems: 
+However, in your test data, there is one more category, `'externally reviewed'`, which does not appear in the training set. Now if you use `pandas.get_dummies()`, you will encounter two problems:
 
 1) If novel data comes in observation by observation, using `pandas.get_dummies()` simply makes no sense.
 
@@ -185,7 +185,7 @@ However, in your test data, there is one more category, `'externally reviewed'`,
 
 ## Creating a ColumnTransformer
 
-Okay, let's create a preprocessing pipeline now. We wish to create dummy variables for the categorical features and to standardize the continuous features. For this purpose, we put everything in a `ColumnTransformer`. We begin with the categoricals: First, we need to name the step: `'onehot'`. Then we need to specify the transformer, here `OneHotEncoder()`. Lastly, we need to indicate which columns should be transformed, here done by giving column names `['pclass', 'sex', 'embarked']` but other forms (e.g., indices) also do work. 
+Okay, let's create a preprocessing pipeline now. We wish to create dummy variables for the categorical features and to standardize the continuous features. For this purpose, we put everything in a `ColumnTransformer`. We begin with the categoricals: First, we need to name the step: `'onehot'`. Then we need to specify the transformer, here `OneHotEncoder()`. Lastly, we need to indicate which columns should be transformed, here done by giving column names `['pclass', 'sex', 'embarked']` but other forms (e.g., indices) also do work.
 
 
 ```python
@@ -207,10 +207,10 @@ The same is done with `StandardScaler()`. Since we have a few missing values in 
 ```python
 preprocessor = ColumnTransformer(
     [
-        ('imputer', SimpleImputer(strategy = 'constant', fill_value = 'missing'), 
+        ('imputer', SimpleImputer(strategy = 'constant', fill_value = 'missing'),
           ['pclass', 'sex', 'embarked']),
         ('onehot', OneHotEncoder(), ['pclass', 'sex', 'embarked']),
-        ('imputer', SimpleImputer(strategy = 'median'), 
+        ('imputer', SimpleImputer(strategy = 'median'),
           ['age', 'sibsp', 'parch', 'fare']),
         ('scaler', StandardScaler(), ['age', 'sibsp', 'parch', 'fare'])
     ],
@@ -295,11 +295,11 @@ Next, we create the `GridSearchCV()` object by filling in the steps above and ch
 
 ```python
 cv = GridSearchCV(
-  pipeline, 
-  params, 
-  cv = rskf, 
-  scoring = ['f1', 'accuracy'], 
-  refit = 'f1', 
+  pipeline,
+  params,
+  cv = rskf,
+  scoring = ['f1', 'accuracy'],
+  refit = 'f1',
   n_jobs = -1
   )
 ```
@@ -324,19 +324,19 @@ print(f'Scores: {classification_report(y, cv.predict(X))}')
 ```
 
     Best F1-score: 0.712
-    
+
     Best parameter set: {'clf__C': 10, 'clf__penalty': 'l1', 'clf__random_state': 42, 'clf__solver': 'liblinear'}
-    
+
     Scores:               precision    recall  f1-score   support
-    
+
                0       0.82      0.85      0.83       809
                1       0.74      0.69      0.72       500
-    
+
         accuracy                           0.79      1309
        macro avg       0.78      0.77      0.77      1309
     weighted avg       0.79      0.79      0.79      1309
-    
-    
+
+
 
 Our best results, an F1-score of 0.712, were achieved with an inverse of regularization strength (*C*) of 10 and L1 penalty.
 
