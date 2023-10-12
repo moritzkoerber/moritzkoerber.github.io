@@ -2,8 +2,6 @@
 title: "Tune your preprocessing steps and algorithm selection like hyperparameters"
 author: "Moritz Körber"
 date: "18 November 2019"
-categories: [Python, Tutorial]
-tags: [Python, Pipeline, Preprocessing, Scikit-Learn, Machine Learning]
 ---
 
 Using a pipeline to preprocess your data offers some substantive [advantages](https://moritzkoerber.github.io/python/tutorial/2019/10/11/blogpost/). A pipeline guarantees that no information from the test set is used in preprocessing or training the model. Pipelines are often combined with cross-validation to find the best parameter combination of a machine learning algorithm. However, the implemented preprocessing steps, for example whether to scale the data, or the implemented machine learning algorithm can also be seen as a hyperparameter; not of a single model but of the whole training process. We can therefore tune them as such to further improve our model's performance. In this post, I will show you how to do it with sci-kit learn!

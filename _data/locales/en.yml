@@ -11,8 +11,7 @@ layout:
 tabs:
   # format: <filename_without_extension>: <value>
   home: Home
-  archives: Archives
-  categories: Post Categories
+  archives: Archive
   about: About Me
 
 # the text displayed in the search bar & search results
@@ -28,11 +27,11 @@ panel:
 
 #  The liquid date format › http://strftime.net/
 date_format:
-  tooltip: '%a, %b %e, %Y, %l:%M %p %z'
+  tooltip: "%a, %b %e, %Y, %l:%M %p %z"
   post:
-    long: '%b %e, %Y'
-    short: '%b %e, %Y'
-    archive_month: '%b'
+    long: "%b %e, %Y"
+    short: "%b %e, %Y"
+    archive_month: "%b"
 
 copyright:
   # Shown at the bottom of the post
@@ -58,7 +57,7 @@ not_found:
 # ----- Posts related labels -----
 
 post:
-  published: 'on'
+  published: "on"
   updated: Updated
   timeago:
     day: days ago

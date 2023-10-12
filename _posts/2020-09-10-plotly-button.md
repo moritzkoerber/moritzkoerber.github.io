@@ -2,8 +2,6 @@
 layout: post
 title: "How to create a button to exchange the data in a plotly plot"
 date: "September 10th 2020"
-categories: [Python, Visualization, Plotly, Tutorial]
-tags: [Python, Plotly, Visualization]
 ---
 
 I recently wanted to create a button for a plotly (the Python library) plot that exchanges the underlying data. I got stuck in the middle and since I couldn’t find much on Google, I thought it might be worth sharing this quick one with you.

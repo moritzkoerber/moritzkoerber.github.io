@@ -2,8 +2,6 @@
 title: "A plot says more than 1000 tables: Visualizing missing data with missingno"
 author: "Moritz Körber"
 date: "02 August 2019"
-categories: [Analysis, Python, Tutorial]
-tags: [Python, Missing Data, Airbnb, Kaggle, missingno]
 ---
 
 <figure style="width: 33%;  margin: 1.5rem auto 2rem;">

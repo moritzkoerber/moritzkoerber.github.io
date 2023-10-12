@@ -2,8 +2,6 @@
 title: "Simple and secure deployment with Github Actions OpenID Connect (OIDC)"
 author: "Moritz Körber"
 date: "28 November 2021"
-categories: [DevOps, Github Actions, Tutorial]
-tags: [DevOps, Github Actions, OIDC]
 ---
 
 Continuous delivery (CD) workflows implemented Github Actions help deploy software, create and update cloud infrastructure, or make use of various services of cloud providers like Amazon Web Services (AWS). To do this, a workflow needs to authenticate itself to the cloud provider through credentials to gain access to those resources and services.

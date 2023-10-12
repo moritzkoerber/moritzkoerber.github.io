@@ -2,8 +2,6 @@
 title: "Add data quality checks to your duckdb pipeline with Soda Core"
 author: "Moritz Körber"
 date: "15 June 2023"
-categories: [Data Engineering]
-tags: [Data Engineering]
 ---
 
 [duckdb](https://motherduck.com/blog/six-reasons-duckdb-slaps/) is a great and fast choice for pipelines running on a single instance and is an even better match if you're pipeline oozes with SQL. To ensure that what you are doing with duckdb is actually legit, you can use the Python library [Soda Core](https://github.com/sodadata/soda-core) to run some data quality checks on your output. It's super simple to combine them. For example, you have a data pipeline that computes a data mart table/materialized view table, say in this case counted destinations. Let's simulate the underlying raw data with a pandas data frame:

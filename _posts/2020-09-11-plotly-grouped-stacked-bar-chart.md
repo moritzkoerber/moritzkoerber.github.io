@@ -2,8 +2,6 @@
 layout: post
 title: "How to plot a grouped stacked bar chart in plotly"
 date: "September 11th 2020"
-categories: [Python, Visualization, Plotly, Tutorial]
-tags: [Python, Plotly, Visualization]
 ---
 
 
