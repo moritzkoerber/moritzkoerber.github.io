@@ -1,0 +1,149 @@
+<!DOCTYPE html><html lang="en" mode="light" ><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><meta name="day-prompt" content="days ago"><meta name="hour-prompt" content="hours ago"><meta name="minute-prompt" content="minutes ago"><meta name="justnow-prompt" content="just now"><meta name="generator" content="Jekyll v4.4.1" /><meta property="og:title" content="Add data quality checks to your duckdb pipeline with Soda Core" /><meta name="author" content="Moritz Körber" /><meta property="og:locale" content="en" /><meta name="description" content="duckdb is a great and fast choice for pipelines running on a single instance and is an even better match if you’re pipeline oozes with SQL. To ensure that what you are doing with duckdb is actually legit, you can use the Python library Soda Core to run some data quality checks on your output. It’s super simple to combine them. For example, you have a data pipeline that computes a data mart table/materialized view table, say in this case counted destinations. Let’s simulate the underlying raw data with a pandas data frame:" /><meta property="og:description" content="duckdb is a great and fast choice for pipelines running on a single instance and is an even better match if you’re pipeline oozes with SQL. To ensure that what you are doing with duckdb is actually legit, you can use the Python library Soda Core to run some data quality checks on your output. It’s super simple to combine them. For example, you have a data pipeline that computes a data mart table/materialized view table, say in this case counted destinations. Let’s simulate the underlying raw data with a pandas data frame:" /><link rel="canonical" href="https://moritzkoerber.github.io/posts/duckdb-soda/" /><meta property="og:url" content="https://moritzkoerber.github.io/posts/duckdb-soda/" /><meta property="og:site_name" content="Moritz Körber" /><meta property="og:type" content="article" /><meta property="article:published_time" content="2023-06-15T00:00:00+02:00" /><meta name="twitter:card" content="summary" /><meta property="twitter:title" content="Add data quality checks to your duckdb pipeline with Soda Core" /><meta name="twitter:site" content="@moritzkoerber" /><meta name="twitter:creator" content="@Moritz Körber" /><meta name="google-site-verification" content="google_meta_tag_verification" /> <script type="application/ld+json"> {"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Moritz Körber"},"dateModified":"2023-10-12T21:09:23+02:00","datePublished":"2023-06-15T00:00:00+02:00","description":"duckdb is a great and fast choice for pipelines running on a single instance and is an even better match if you’re pipeline oozes with SQL. To ensure that what you are doing with duckdb is actually legit, you can use the Python library Soda Core to run some data quality checks on your output. It’s super simple to combine them. For example, you have a data pipeline that computes a data mart table/materialized view table, say in this case counted destinations. Let’s simulate the underlying raw data with a pandas data frame:","headline":"Add data quality checks to your duckdb pipeline with Soda Core","mainEntityOfPage":{"@type":"WebPage","@id":"https://moritzkoerber.github.io/posts/duckdb-soda/"},"url":"https://moritzkoerber.github.io/posts/duckdb-soda/"}</script><title>Add data quality checks to your duckdb pipeline with Soda Core | Moritz Körber</title><link rel="apple-touch-icon" sizes="180x180" href="/assets/img/favicons/apple-touch-icon.png"><link rel="icon" type="image/png" sizes="32x32" href="/assets/img/favicons/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="/assets/img/favicons/favicon-16x16.png"><link rel="manifest" href="/assets/img/favicons/site.webmanifest"><link rel="shortcut icon" href="/assets/img/favicons/favicon.ico"><meta name="apple-mobile-web-app-title" content="Moritz Körber"><meta name="application-name" content="Moritz Körber"><meta name="msapplication-TileColor" content="#da532c"><meta name="msapplication-config" content="/assets/img/favicons/browserconfig.xml"><meta name="theme-color" content="#ffffff"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://fonts.gstatic.com"><link rel="preconnect" href="https://www.google-analytics.com" crossorigin="use-credentials"><link rel="dns-prefetch" href="https://www.google-analytics.com"><link rel="preconnect" href="https://www.googletagmanager.com" crossorigin="anonymous"><link rel="dns-prefetch" href="https://www.googletagmanager.com"><link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="dns-prefetch" href="https://cdn.jsdelivr.net"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css"><link rel="stylesheet" href="/assets/css/style.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/afeld/bootstrap-toc@1.0.1/dist/bootstrap-toc.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/magnific-popup@1.1.0/dist/magnific-popup.min.css"> <script src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js"></script><body data-spy="scroll" data-target="#toc"><div id="sidebar" class="d-flex flex-column align-items-end" lang="en"><div class="profile-wrapper text-center"><div id="avatar"> <a href="/" alt="avatar" class="mx-auto"> <img src="/resources/images/pic.jpg" alt="avatar" onerror="this.style.display='none'"> </a></div><div class="site-title mt-3"> <a href="/">Moritz Körber</a></div><div class="site-subtitle font-italic">Data science and other board games</div></div><ul class="w-100"><li class="nav-item"> <a href="/" class="nav-link"> <i class="fa-fw fas fa-home ml-xl-3 mr-xl-3 unloaded"></i> <span>HOME</span> </a><li class="nav-item"> <a href="/archives/" class="nav-link"> <i class="fa-fw fas fa-archive ml-xl-3 mr-xl-3 unloaded"></i> <span>ARCHIVE</span> </a><li class="nav-item"> <a href="/about/" class="nav-link"> <i class="fa-fw fas fa-info ml-xl-3 mr-xl-3 unloaded"></i> <span>ABOUT ME</span> </a></ul><div class="sidebar-bottom mt-auto d-flex flex-wrap justify-content-center"> <a href="https://github.com/moritzkoerber" aria-label="github" target="_blank" rel="noopener"> <i class="fab fa-github-alt"></i> </a> <a href="https://twitter.com/moritzkoerber" aria-label="twitter" target="_blank" rel="noopener"> <i class="fab fa-twitter"></i> </a> <a href="https://medium.com/@moritzkoerber" aria-label="medium" target="_blank" rel="noopener"> <i class="fab fa-medium"></i> </a> <a href=" javascript:location.href = 'mailto:' + ['moritzjkoerber','gmail.com'].join('@')" aria-label="email" > <i class="fas fa-envelope"></i> </a> <a href="https://www.linkedin.com/in/moritzkoerber/" aria-label="linkedin" target="_blank" rel="noopener"> <i class="fab fa-linkedin"></i> </a> <a href="/feed.xml" aria-label="rss" > <i class="fas fa-rss"></i> </a></div></div><div id="topbar-wrapper" class="row justify-content-center topbar-down"><div id="topbar" class="col-11 d-flex h-100 align-items-center justify-content-between"> <span id="breadcrumb"> <span> <a href="/"> Home </a> </span> <span>Add data quality checks to your duckdb pipeline with Soda Core</span> </span> <i id="sidebar-trigger" class="fas fa-bars fa-fw"></i><div id="topbar-title"> Post</div><i id="search-trigger" class="fas fa-search fa-fw"></i> <span id="search-wrapper" class="align-items-center"> <i class="fas fa-search fa-fw"></i> <input class="form-control" id="search-input" type="search" aria-label="search" autocomplete="off" placeholder="Search..."> <i class="fa fa-times-circle fa-fw" id="search-cleaner"></i> </span> <span id="search-cancel" >Cancel</span></div></div><div id="main-wrapper"><div id="main"><div class="row"><div id="post-wrapper" class="col-12 col-lg-11 col-xl-8"><div class="post pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4"><h1 data-toc-skip>Add data quality checks to your duckdb pipeline with Soda Core</h1><div class="post-meta text-muted d-flex flex-column"><div> <span class="semi-bold"> Moritz Körber </span> on <span class="timeago " data-toggle="tooltip" data-placement="bottom" title="Thu, Jun 15, 2023, 12:00 AM +0200" >Jun 15, 2023<i class="unloaded">2023-06-15T00:00:00+02:00</i> </span></div><div> <span> Updated <span class="timeago lastmod" data-toggle="tooltip" data-placement="bottom" title="Thu, Oct 12, 2023, 9:09 PM +0200" >Oct 12, 2023<i class="unloaded">2023-10-12T21:09:23+02:00</i> </span> </span> <span class="readtime" data-toggle="tooltip" data-placement="bottom" title="511 words">2 min read</span></div></div><div class="post-content"><p><a href="https://motherduck.com/blog/six-reasons-duckdb-slaps/">duckdb</a> is a great and fast choice for pipelines running on a single instance and is an even better match if you’re pipeline oozes with SQL. To ensure that what you are doing with duckdb is actually legit, you can use the Python library <a href="https://github.com/sodadata/soda-core">Soda Core</a> to run some data quality checks on your output. It’s super simple to combine them. For example, you have a data pipeline that computes a data mart table/materialized view table, say in this case counted destinations. Let’s simulate the underlying raw data with a pandas data frame:</p><div lang="python" class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">input_df</span> <span class="o">=</span> <span class="n">pandas</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">(</span><span class="nf">dict</span><span class="p">(</span><span class="n">destination</span><span class="o">=</span><span class="p">[</span><span class="sh">"</span><span class="s">New York</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">New York</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">Chicago</span><span class="sh">"</span><span class="p">]))</span>
+</pre></table></code></div></div><p>Counting the destinations is then just a matter of</p><div lang="python" class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+</pre><td class="rouge-code"><pre><span class="n">duckdb</span><span class="p">.</span><span class="nf">sql</span><span class="p">(</span><span class="sh">"</span><span class="s">SELECT destination, COUNT(destination) as cnt FROM input_df GROUP BY destination</span><span class="sh">"</span><span class="p">)</span>
+</pre></table></code></div></div><p>Fine, but how to check the result? Let’s add some soda core checks into a <code class="language-plaintext highlighter-rouge">checks.yaml</code> – for this toy example say we check that the result features at least a single row and contains the columns “destination” and “cnt”:</p><div lang="yaml" class="language-yaml highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+</pre><td class="rouge-code"><pre><span class="na">checks for aggregated_destinations</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="s">row_count &gt; </span><span class="m">0</span>
+  <span class="pi">-</span> <span class="na">schema</span><span class="pi">:</span>
+      <span class="na">name</span><span class="pi">:</span> <span class="s">Confirm that required columns are present</span>
+      <span class="na">fail</span><span class="pi">:</span>
+        <span class="na">when required column missing</span><span class="pi">:</span>
+          <span class="pi">-</span> <span class="s">destination</span>
+          <span class="pi">-</span> <span class="s">cnt</span>
+</pre></table></code></div></div><p>When you use the in-memory database (the default), you do not need to do anything else but to create a view and run the scan using the same connection:</p><div lang="python" class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+</pre><td class="rouge-code"><pre><span class="kn">from</span> <span class="n">soda.scan</span> <span class="kn">import</span> <span class="n">Scan</span>
+
+<span class="k">with</span> <span class="n">duckdb</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="sh">"</span><span class="s">:memory:</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">con</span><span class="p">:</span>
+    <span class="n">con</span><span class="p">.</span><span class="nf">sql</span><span class="p">(</span>
+        <span class="sh">"""</span><span class="se">\
+</span><span class="s">        CREATE VIEW aggregated_destinations AS
+        SELECT destination, COUNT(destination) as cnt
+        FROM input_df
+        GROUP BY destination
+        </span><span class="sh">"""</span>
+    <span class="p">)</span>
+    <span class="n">scan</span> <span class="o">=</span> <span class="nc">Scan</span><span class="p">()</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">add_duckdb_connection</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">set_data_source_name</span><span class="p">(</span><span class="sh">"</span><span class="s">duckdb</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">add_sodacl_yaml_files</span><span class="p">(</span><span class="sh">"</span><span class="s">soda-sql/checks.yml</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">set_scan_definition_name</span><span class="p">(</span><span class="sh">"</span><span class="s">test_destinations</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">execute</span><span class="p">()</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">assert_no_checks_fail</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">scan</span><span class="p">.</span><span class="nf">get_logs_text</span><span class="p">())</span>
+</pre></table></code></div></div><p>Which prints</p><div lang="plaintext" class="language-plaintext highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+</pre><td class="rouge-code"><pre>INFO   | Soda Core 3.0.38
+INFO   | Scan summary:
+INFO   | 2/2 checks PASSED:
+INFO   |     aggregated_destinations in duckdb
+INFO   |       row_count &gt; 0 [PASSED]
+INFO   |       Confirm that required columns are present [PASSED]
+INFO   | All is good. No failures. No warnings. No errors.
+</pre></table></code></div></div><p>Let’s do a negative test and let it fail by renaming the aggregated column:</p><div lang="python" class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre><td class="rouge-code"><pre><span class="k">with</span> <span class="n">duckdb</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="sh">"</span><span class="s">:memory:</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">con</span><span class="p">:</span>
+    <span class="n">con</span><span class="p">.</span><span class="nf">sql</span><span class="p">(</span>
+        <span class="sh">"""</span><span class="se">\
+</span><span class="s">    CREATE VIEW aggregated_destinations AS
+    SELECT destination, COUNT(destination) as counted_destinations
+    FROM input_df
+    GROUP BY destination
+    </span><span class="sh">"""</span>
+    <span class="p">)</span>
+    <span class="n">scan</span> <span class="o">=</span> <span class="nc">Scan</span><span class="p">()</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">add_duckdb_connection</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">set_data_source_name</span><span class="p">(</span><span class="sh">"</span><span class="s">duckdb</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">add_sodacl_yaml_files</span><span class="p">(</span><span class="sh">"</span><span class="s">soda-sql/checks.yml</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">set_scan_definition_name</span><span class="p">(</span><span class="sh">"</span><span class="s">test_destinations</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">execute</span><span class="p">()</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">assert_no_checks_fail</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">scan</span><span class="p">.</span><span class="nf">get_logs_text</span><span class="p">())</span>
+</pre></table></code></div></div><p>This throws <code class="language-plaintext highlighter-rouge">AssertionError: Check results failed: [schema] FAIL (fail_missing_column_names = [cnt], schema_measured = [destination varchar, counted_destinations bigint])</code> – as expected.</p><p>When you have a database file though, you need to use the datasource config in the form of a <code class="language-plaintext highlighter-rouge">configuration.yaml</code>:</p><div lang="yaml" class="language-yaml highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+</pre><td class="rouge-code"><pre><span class="na">data_source my_data</span><span class="pi">:</span>
+  <span class="na">type</span><span class="pi">:</span> <span class="s">duckdb</span>
+  <span class="na">path</span><span class="pi">:</span> <span class="s2">"</span><span class="s">database.db"</span>
+</pre></table></code></div></div><p>And then the same show as before:</p><div lang="python" class="language-python highlighter-rouge"><div class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+</pre><td class="rouge-code"><pre><span class="k">with</span> <span class="n">duckdb</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="sh">"</span><span class="s">database.db</span><span class="sh">"</span><span class="p">)</span> <span class="k">as</span> <span class="n">con</span><span class="p">:</span>
+    <span class="n">con</span><span class="p">.</span><span class="nf">sql</span><span class="p">(</span>
+        <span class="sh">"""</span><span class="se">\
+</span><span class="s">        CREATE VIEW aggregated_destinations AS
+        SELECT destination, COUNT(destination) as cnt
+        FROM input_df
+        GROUP BY destination
+        </span><span class="sh">"""</span>
+    <span class="p">)</span>
+    <span class="n">scan</span> <span class="o">=</span> <span class="nc">Scan</span><span class="p">()</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">add_duckdb_connection</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">set_data_source_name</span><span class="p">(</span><span class="sh">"</span><span class="s">my_data</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">add_configuration_yaml_file</span><span class="p">(</span><span class="sh">"</span><span class="s">soda-sql/configuration.yml</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">add_sodacl_yaml_files</span><span class="p">(</span><span class="sh">"</span><span class="s">soda-sql/checks.yml</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">set_scan_definition_name</span><span class="p">(</span><span class="sh">"</span><span class="s">test_destinations</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">execute</span><span class="p">()</span>
+    <span class="n">scan</span><span class="p">.</span><span class="nf">assert_no_checks_fail</span><span class="p">()</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">scan</span><span class="p">.</span><span class="nf">get_logs_text</span><span class="p">())</span>
+</pre></table></code></div></div><p>Don’t let data quality issues drive your quackers! 🦆</p></div><div class="post-tail-wrapper text-muted"><div class="post-tail-bottom d-flex justify-content-between align-items-center mt-3 pt-5 pb-2" ><div class="license-wrapper"> This post is licensed under <a href="https://creativecommons.org/licenses/by/4.0/"> CC BY 4.0 </a> by the author.</div><div class="share-wrapper"> <span class="share-label text-muted mr-1">Share</span> <span class="share-icons"> <a href="https://twitter.com/intent/tweet?text=Add data quality checks to your duckdb pipeline with Soda Core - Moritz Körber&url=https://moritzkoerber.github.io/posts/duckdb-soda/" data-toggle="tooltip" data-placement="top" title="Twitter" target="_blank" rel="noopener" aria-label="Twitter"> <i class="fa-fw fab fa-twitter"></i> </a> <i class="fa-fw fas fa-link small" onclick="copyLink('', 'Link copied successfully!')" data-toggle="tooltip" data-placement="top" title="Copy link"> </i> </span></div></div></div></div></div></div><div class="row"><div class="col-12 col-lg-11 col-xl-8"><div id="post-extend-wrapper" class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-md-4 pr-md-4" ><div id="related-posts" class="mt-5 mb-2 mb-sm-4"><h3 class="pt-2 mt-1 mb-4 ml-1" data-toc-skip>Further Reading</h3><div class="card-deck mb-4"><div class="card"> <a href="/posts/de-exercises/"><div class="card-body"> <span class="timeago small" >Apr 8, 2022<i class="unloaded">2022-04-08T00:00:00+02:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Data Engineering Practice</h3><div class="text-muted small"><p> Yesterday, I finished the last exercise of Daniel Beach’s amazing data engineering exercises. The exercises look simple at first glance, but in each exercise I stumbled upon something of which I th...</p></div></div></a></div><div class="card"> <a href="/posts/deploy-with-oidc/"><div class="card-body"> <span class="timeago small" >Nov 28, 2021<i class="unloaded">2021-11-28T00:00:00+01:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Simple and secure deployment with Github Actions OpenID Connect (OIDC)</h3><div class="text-muted small"><p> Continuous delivery (CD) workflows implemented Github Actions help deploy software, create and update cloud infrastructure, or make use of various services of cloud providers like Amazon Web Servic...</p></div></div></a></div><div class="card"> <a href="/posts/versioning-with-setuptools_scm/"><div class="card-body"> <span class="timeago small" >Aug 14, 2021<i class="unloaded">2021-08-14T00:00:00+02:00</i> </span><h3 class="pt-0 mt-1 mb-3" data-toc-skip>Version metadata are like charging cables: Versioning your package with setuptools_scm</h3><div class="text-muted small"><p> If you have ever forgotten to pack a charging cable or something else for a trip, you probably have noticed that we humans are prone to errors in simple and repetitive routine tasks 1. Because mach...</p></div></div></a></div></div></div><div class="post-navigation d-flex justify-content-between"> <a href="/posts/de-exercises/" class="btn btn-outline-primary" prompt="Older"><p>Data Engineering Practice</p></a> <span class="btn btn-outline-primary disabled" prompt="Newer"><p>-</p></span></div><div id="disqus" class="pt-2 pb-2"><p class="text-center text-muted small pb-5"> Comments powered by <a href="https://disqus.com/">Disqus</a>.</p></div><script src="/assets/js/lib/jquery.disqusloader.min.js"></script> <script> const options = { scriptUrl: '//moritzkoerber-com.disqus.com/embed.js', disqusConfig: function() { this.page.title = 'Add data quality checks to your duckdb pipeline with Soda Core'; this.page.url = 'https://moritzkoerber.github.io/posts/duckdb-soda/'; this.page.identifier = '/posts/duckdb-soda/'; } }; $.disqusLoader('#disqus', options); </script></div></div></div><footer class="d-flex w-100 justify-content-center"><div class="d-flex justify-content-between align-items-center"><div class="footer-left"><p class="mb-0"> © 2025 <a href="https://twitter.com/moritzkoerber">Moritz Körber</a>. <span data-toggle="tooltip" data-placement="top" title="Except where otherwise noted, the blog posts on this site are licensed under the Creative Commons Attribution 4.0 International (CC BY 4.0) License by the author.">Some rights reserved.</span></p></div><div class="footer-right"><p class="mb-0"> Powered by <a href="https://jekyllrb.com" target="_blank" rel="noopener">Jekyll</a> with <a href="https://github.com/cotes2020/jekyll-theme-chirpy" target="_blank" rel="noopener">Chirpy</a> theme.</p></div></div></footer></div><div id="search-result-wrapper" class="d-flex justify-content-center unloaded"><div class="col-12 col-sm-11 post-content"><div id="search-hints"><h4 class="text-muted mb-4">Trending Tags</h4></div><div id="search-results" class="d-flex flex-wrap justify-content-center text-muted mt-3"></div></div></div></div><div id="mask"></div><a id="back-to-top" href="#" aria-label="back-to-top" class="btn btn-lg btn-box-shadow" role="button"> <i class="fas fa-angle-up"></i> </a> <script src="https://cdn.jsdelivr.net/npm/simple-jekyll-search@1.7.3/dest/simple-jekyll-search.min.js"></script> <script> SimpleJekyllSearch({ searchInput: document.getElementById('search-input'), resultsContainer: document.getElementById('search-results'), json: '/assets/js/data/search.json', searchResultTemplate: '<div class="pl-1 pr-1 pl-sm-2 pr-sm-2 pl-lg-4 pr-lg-4 pl-xl-0 pr-xl-0"> <a href="https://moritzkoerber.github.io{url}">{title}</a><div class="post-meta d-flex flex-column flex-sm-row text-muted mt-1 mb-1"> {categories} {tags}</div><p>{snippet}</p></div>', noResultsText: '<p class="mt-5">Oops! No result founds.</p>', templateMiddleware: function(prop, value, template) { if (prop === 'categories') { if (value === '') { return `${value}`; } else { return `<div class="mr-sm-4"><i class="far fa-folder fa-fw"></i>${value}</div>`; } } if (prop === 'tags') { if (value === '') { return `${value}`; } else { return `<div><i class="fa fa-tag fa-fw"></i>${value}</div>`; } } } }); </script> <script src="https://cdn.jsdelivr.net/combine/npm/lozad/dist/lozad.min.js,npm/magnific-popup@1/dist/jquery.magnific-popup.min.js"></script> <script defer src="/assets/js/dist/post.min.js"></script> <script src="https://cdn.jsdelivr.net/combine/npm/popper.js@1.16.1,npm/bootstrap@4/dist/js/bootstrap.min.js"></script> <script defer src="/app.js"></script> <script defer src="https://www.googletagmanager.com/gtag/js?id="></script> <script> document.addEventListener("DOMContentLoaded", function(event) { window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', ''); }); </script>
