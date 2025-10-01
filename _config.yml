@@ -5,7 +5,7 @@ theme: jekyll-theme-chirpy
 
 # Only if your site type is GitHub Project sites and doesn't have a custom domain,
 # change below value to '/projectname'.
-baseurl: ''
+baseurl: ""
 
 # The language of the webpage › http://www.lingoes.net/en/translator/langcode.htm
 # If it has the same name as one of the files in folder `_data/locales`, the layout language will also be changed,
@@ -18,21 +18,21 @@ timezone: Europe/Berlin
 # jekyll-seo-tag settings › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/usage.md
 # ↓ --------------------------
 
-title: Moritz Körber                          # the main title
+title: Moritz Körber # the main title
 
-tagline: Data science and other board games   # it will display as the sub-title
+tagline: Data science and other board games # it will display as the sub-title
 
-description: >-                        # used by seo meta and the atom feed
+description: >- # used by seo meta and the atom feed
   A blog on various data science topics that I stumbled upon.
 
 # fill in the protocol & hostname for your site, e.g., 'https://username.github.io'
-url: 'https://moritzkoerber.github.io'
+url: "https://moritzkoerber.github.io"
 
 github:
-  username: moritzkoerber             # change to your github username
+  username: moritzkoerber # change to your github username
 
 twitter:
-  username: moritzkoerber            # change to your twitter username
+  username: moritzkoerber # change to your twitter username
 
 social:
   # Change to your full name.
@@ -41,21 +41,20 @@ social:
   email: moritzjkoerber@gmail.com # change to your email address
   links:
     # The first element serves as the copyright owner's link
-    - https://twitter.com/moritzkoerber      # change to your twitter homepage
-    - https://github.com/moritzkoerber       # change to your github homepage
+    - https://twitter.com/moritzkoerber # change to your twitter homepage
+    - https://github.com/moritzkoerber # change to your github homepage
     - https://www.linkedin.com/in/moritzkoerber
 
 google_site_verification: google_meta_tag_verification # change to your verification string
 
 # ↑ --------------------------
 
-
 google_analytics:
-  id: ''              # fill in your Google Analytics ID
+  id: "" # fill in your Google Analytics ID
   # Google Analytics pageviews report settings
   pv:
-    proxy_endpoint:   # fill in the Google Analytics superProxy endpoint of Google App Engine
-    cache_path:       # the local PV cache data, friendly to visitors from GFW region
+    proxy_endpoint: # fill in the Google Analytics superProxy endpoint of Google App Engine
+    cache_path: # the local PV cache data, friendly to visitors from GFW region
 
 # Prefer color scheme setting.
 #
@@ -68,14 +67,14 @@ google_analytics:
 #     light  - Use the light color scheme
 #     dark   - Use the dark color scheme
 #
-theme_mode:   light
+theme_mode: light
 
 # The CDN endpoint for images.
 # Notice that once it is assigned, the CDN url
 # will be added to all image (site avatar & posts' images) paths starting with '/'
 #
 # e.g. 'https://cdn.com'
-img_cdn: ''
+img_cdn: ""
 
 # the avatar on sidebar, support local or CORS resources
 avatar: /resources/images/pic.jpg
@@ -84,8 +83,8 @@ avatar: /resources/images/pic.jpg
 toc: true
 
 disqus:
-  comments: true  # boolean type, the global switch for posts comments.
-  shortname: 'moritzkoerber-com'    # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
+  comments: true # boolean type, the global switch for posts comments.
+  shortname: "moritzkoerber-com" # Fill with your Disqus shortname. › https://help.disqus.com/en/articles/1717111-what-s-a-shortname
 
 paginate: 10
 
@@ -93,7 +92,7 @@ paginate: 10
 
 kramdown:
   syntax_highlighter: rouge
-  syntax_highlighter_opts:   # Rouge Options › https://github.com/jneen/rouge#full-options
+  syntax_highlighter_opts: # Rouge Options › https://github.com/jneen/rouge#full-options
     css_class: highlight
     # default_lang: console
     span:
@@ -107,32 +106,28 @@ collections:
     output: true
     sort_by: order
 
-
 defaults:
-  -
-    scope:
-      path: ''          # An empty string here means all files in the project
+  - scope:
+      path: "" # An empty string here means all files in the project
       type: posts
     values:
       layout: post
-      comments: true    # Enable comments in posts.
-      toc: true         # Display TOC column in posts.
+      comments: true # Enable comments in posts.
+      toc: true # Display TOC column in posts.
       # DO NOT modify the following parameter unless you are confident enough
       # to update the code of all other post links in this project.
       permalink: /posts/:title/
-  -
-    scope:
+  - scope:
       path: _drafts
     values:
       comments: false
-  -
-    scope:
-      path: ''
-      type: tabs             # see `site.collections`
+  - scope:
+      path: ""
+      type: tabs # see `site.collections`
     values:
       layout: page
       permalink: /:title/
-      dynamic_title: true    # Hide title in mobile screens.
+      dynamic_title: true # Hide title in mobile screens.
 
 sass:
   style: compressed
@@ -147,15 +142,15 @@ compress_html:
     envs: [development]
 
 exclude:
-  - '*.gem'
-  - '*.gemspec'
+  - "*.gem"
+  - "*.gemspec"
   - tools
   - docs
   - README.md
   - LICENSE
   - gulpfile.js
   - node_modules
-  - '*.json'
+  - "*.json"
 
 jekyll-archives:
   enabled: [categories, tags]
